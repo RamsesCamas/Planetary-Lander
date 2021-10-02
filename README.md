@@ -1,2 +1,2 @@
 # Planetary-Lander
-The objetive of this project is to simulate a lander in differents enviroments, such as the moon or Mars.
+The objetive of this project is to simulate a lander in differents enviroments, such as the Moon or Mars.
