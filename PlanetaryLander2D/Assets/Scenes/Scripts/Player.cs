@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     private bool isPlanet = false;
 
     public GameObject windZone;
+    private int count = 0;
 
     void Start(){
         rb = GetComponent<Rigidbody>();
@@ -40,10 +41,15 @@ public class Player : MonoBehaviour
         }else{
             windZone.GetComponent<WindArea>().transform.position = new Vector3(0.0f, -36.7f,42.3f);
         }
-
+        
         if(inWindZone){
-           windZone.GetComponent<WindArea>().direction = new Vector3(-1.0f,0,0); 
-           rb.AddForce(windZone.GetComponent<WindArea>().direction * windZone.GetComponent<WindArea>().strenght);
+            
+          if(count == 500){
+              windZone.GetComponent<WindArea>().direction = new Vector3(Random.Range(-1.0f,1.0f),0,0); 
+              count = 0;
+          }
+          rb.AddForce(windZone.GetComponent<WindArea>().direction * windZone.GetComponent<WindArea>().strenght);
+          count++;
         }
     }
 

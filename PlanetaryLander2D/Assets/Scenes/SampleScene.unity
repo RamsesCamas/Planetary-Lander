@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strenght: 1
-  direction: {x: 1, y: 0, z: 0}
+  direction: {x: 0.5, y: 0, z: 0}
 --- !u!65 &104012853
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1679,7 +1679,7 @@ PrefabInstance:
     - target: {fileID: 4849220682604425270, guid: 374a867e3e80f2e4088d2b3b291fbc86,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.51
+      value: 11.62
       objectReference: {fileID: 0}
     - target: {fileID: 4849220682604425270, guid: 374a867e3e80f2e4088d2b3b291fbc86,
         type: 3}
