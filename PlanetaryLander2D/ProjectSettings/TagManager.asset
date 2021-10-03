@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - WindArea
+  - PlanetaryLander
+  - FireThrustBottom
+  - FireThrustLeft
+  - FireThrustRight
   layers:
   - Default
   - TransparentFX

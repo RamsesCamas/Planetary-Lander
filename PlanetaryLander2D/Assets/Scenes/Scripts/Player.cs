@@ -5,6 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody rb;
+    public ParticleSystem Fire_Thrust_Bottom;
+    public ParticleSystem Fire_Thrust_Left;
+    public ParticleSystem Fire_Thrust_Right;
     // Start is called before the first frame update
     private Vector3 v_thrust_earth_gravity; 
 
@@ -28,14 +31,33 @@ public class Player : MonoBehaviour
     private void FixedUpdate(){
         rb.useGravity = false;
         rb.AddForce(new Vector3(0,-1.0f,0)*rb.mass*gravityValue);
-        //rb.AddForce(transform.up * 10.0f); Equivale a la gravedad de la tierra
-        if(Input.GetAxis("Vertical")>00.1f){
+
+        if(Input.GetAxis("Vertical")>0.01f){
             v_thrust_earth_gravity = transform.up * 11.0f;
             rb.AddForce(v_thrust_earth_gravity);
-        }
-        if(Input.GetAxis("Horizontal")>00.1f || Input.GetAxis("Horizontal") < 00.1f ){
+            if(!Fire_Thrust_Bottom.isPlaying){
+                Fire_Thrust_Bottom.Play();
+            }
+        }else if(Fire_Thrust_Bottom.isPlaying){
+                Fire_Thrust_Bottom.Stop();
+            }
+
+        if(Input.GetAxis("Horizontal")>0.01f || Input.GetAxis("Horizontal") < -0.01f ){
             rb.AddForce(transform.right * 5.0f * Input.GetAxis("Horizontal"));
+            if(!Fire_Thrust_Right.isPlaying && Input.GetAxis("Horizontal") < -0.01f ){
+                Fire_Thrust_Right.Play();
+            }else if(!Fire_Thrust_Left.isPlaying && Input.GetAxis("Horizontal") > 0.01f ){
+                Fire_Thrust_Left.Play();
+            }
         }
+        
+        if(Fire_Thrust_Left.isPlaying && Input.GetAxis("Horizontal")<0.01f){
+                Fire_Thrust_Left.Stop();
+            }
+        if(Fire_Thrust_Right.isPlaying && Input.GetAxis("Horizontal") > -0.01f){
+                Fire_Thrust_Right.Stop();
+            }
+
         if(isPlanet){
             windZone.GetComponent<WindArea>().transform.position = new Vector3(0.0f, 0.0f,42.3f);
         }else{
@@ -43,7 +65,6 @@ public class Player : MonoBehaviour
         }
         
         if(inWindZone){
-            
           if(count == 500){
               windZone.GetComponent<WindArea>().direction = new Vector3(Random.Range(-1.0f,1.0f),0,0); 
               count = 0;
