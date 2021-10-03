@@ -10,6 +10,11 @@ public class Player : MonoBehaviour
 
     private float gravityValue = 9.807f;
 
+    public bool inWindZone = false;
+    private bool isPlanet = false;
+
+    public GameObject windZone;
+
     void Start(){
         rb = GetComponent<Rigidbody>();
     }
@@ -30,14 +35,39 @@ public class Player : MonoBehaviour
         if(Input.GetAxis("Horizontal")>00.1f || Input.GetAxis("Horizontal") < 00.1f ){
             rb.AddForce(transform.right * 5.0f * Input.GetAxis("Horizontal"));
         }
+        if(isPlanet){
+            windZone.GetComponent<WindArea>().transform.position = new Vector3(0.0f, 0.0f,42.3f);
+        }else{
+            windZone.GetComponent<WindArea>().transform.position = new Vector3(0.0f, -36.7f,42.3f);
+        }
+
+        if(inWindZone){
+           windZone.GetComponent<WindArea>().direction = new Vector3(-1.0f,0,0); 
+           rb.AddForce(windZone.GetComponent<WindArea>().direction * windZone.GetComponent<WindArea>().strenght);
+        }
     }
 
     public void LunarGravity(){
         gravityValue = 1.62f;
+        isPlanet = false;
+    }
+
+    void OnTriggerEnter(Collider coll){
+        if(coll.gameObject.tag == "WindArea" && isPlanet){
+            windZone = coll.gameObject;
+            inWindZone = true;
+        }
+    }
+
+    void OnTriggerExit(Collider coll){
+        if(coll.gameObject.tag == "WindArea" && isPlanet){
+            inWindZone = false;
+        }
     }
 
     public void MarsGravity(){
         gravityValue = 3.721f;
+        isPlanet = true;
     }
 
     public void VenusGravity(){
